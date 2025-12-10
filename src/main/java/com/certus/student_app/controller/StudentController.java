@@ -39,7 +39,24 @@ public class StudentController {
         model.addAttribute("courses", courseRepo.findAll());
         return "student_form";
     }
+    
+    @GetMapping("/students/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Student student = studentRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
 
+        model.addAttribute("student", student);
+        model.addAttribute("courses", courseRepo.findAll());
+        return "student_form";
+    }
+
+    @GetMapping("/students/delete/{id}")
+    public String deleteStudent(@PathVariable Long id) {
+        studentRepo.deleteById(id);
+        return "redirect:/students";
+    }
+    
+    
     @PostMapping("/students")
     public String saveStudent(
             @ModelAttribute("student") Student student,
@@ -48,8 +65,12 @@ public class StudentController {
         if (courseIds != null) {
             List<Course> selectedCourses = courseRepo.findAllById(courseIds);
             student.setCourses(selectedCourses);
+        } else {
+            student.setCourses(List.of());
         }
+
         studentRepo.save(student);
         return "redirect:/students";
     }
+
 }

@@ -15,7 +15,11 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th><th>Name</th><th>Email</th><th>Courses</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Courses</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +31,20 @@
                 <span th:each="c : ${s.courses}"
                       th:text="${c.name}"
                       class="badge bg-secondary me-1"></span>
+            </td>
+            <td>
+                <!-- EDIT -->
+                <a th:href="@{/students/edit/{id}(id=${s.id})}"
+                   class="btn btn-sm btn-outline-secondary me-1">
+                    Edit
+                </a>
+
+                <!-- DELETE -->
+                <a th:href="@{/students/delete/{id}(id=${s.id})}"
+                   class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('¿Seguro que deseas eliminar este estudiante?');">
+                    Delete
+                </a>
             </td>
         </tr>
         </tbody>
